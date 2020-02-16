@@ -9,13 +9,33 @@
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        Text("Hello, World!")
-    }
-}
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+    @State private var colours = ["Egersund", "Vigrestad", "Varhaug", "Nærbø", "Bryne", "Klepp", "Sandnes"]
+    @State private var selection = 0
+    @State private var pickerVisible = false
+
+    var body: some View {
+        VStack {
+            List {
+                HStack {
+                    Text("Poststed")
+                    Spacer()
+                    Button(colours[selection]) {
+                        self.pickerVisible.toggle()
+                    }
+                    // .foregroundColor(self.pickerVisible ? .red : .blue)
+                }
+                if pickerVisible {
+                    Picker(selection: $selection, label: Text("")) {
+                        ForEach(0..<colours.count) {
+                            Text(self.colours[$0]).foregroundColor(.secondary)
+                        }
+                    }
+                    .onTapGesture {
+                        self.pickerVisible.toggle()
+                    }
+                }
+            }
+        }
     }
 }
